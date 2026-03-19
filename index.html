@@ -11,37 +11,46 @@
       <aside class="sidebar panel">
         <div>
           <p class="eyebrow">TG OS</p>
-          <h1>Fun + Utility Pack</h1>
+          <h1>Polished Desktop Edition</h1>
           <p class="muted">
-            A playable mini desktop with games, productivity tools, and a full settings menu.
+            A richer browser desktop with games, utilities, persistence, and a cleaner launch flow for Windows and local web servers.
           </p>
         </div>
 
         <section class="panel-inner quickstart-card">
           <div class="section-heading">
-            <h2>How to Open</h2>
+            <h2>Open It Fast</h2>
             <button class="ghost-button" data-open="settings-window">Settings</button>
           </div>
-          <ol class="step-list">
-            <li>Open this folder in a terminal.</li>
-            <li>Run <code>python3 -m http.server 8000</code>.</li>
-            <li>Visit <code>http://localhost:8000</code> in your browser.</li>
-          </ol>
-          <p class="muted small">Then click any Launch button below to open an app window.</p>
+          <div class="quickstart-stack">
+            <div class="quickstart-block accent-block">
+              <span class="label">Windows easiest way</span>
+              <strong>Double-click <code>start_tgos.bat</code></strong>
+              <p class="muted small">It starts a local server from the correct folder and opens the browser for you.</p>
+            </div>
+            <div class="quickstart-block">
+              <span class="label">Manual fallback</span>
+              <ol class="step-list">
+                <li>Open this folder in a terminal.</li>
+                <li>Run <code>py -m http.server 8000</code> on Windows or <code>python3 -m http.server 8000</code> on macOS/Linux.</li>
+                <li>Visit <code>http://localhost:8000</code> in your browser.</li>
+              </ol>
+            </div>
+          </div>
+          <p class="muted small">Tip: once the desktop loads, use the taskbar or any Launch button to open apps.</p>
         </section>
 
-        <section class="panel-inner">
-          <h2>Built-in Apps</h2>
+        <section class="panel-inner tips-card">
+          <div class="section-heading">
+            <h2>What&apos;s New</h2>
+            <span class="status-pill">Build 1.2</span>
+          </div>
           <ul class="feature-list">
-            <li>Snake</li>
-            <li>Calculator</li>
-            <li>Minesweeper</li>
-            <li>Notes</li>
-            <li>To-Do Board</li>
-            <li>Pixel Painter</li>
-            <li>Memory Match</li>
-            <li>Clock + Timer</li>
-            <li>Settings</li>
+            <li>Window backdrop + focus stacking</li>
+            <li>Windows launch helper script</li>
+            <li>Saved settings, notes, todos, and pixel art</li>
+            <li>Quick-launch taskbar</li>
+            <li>Safer storage handling and timer validation</li>
           </ul>
         </section>
       </aside>
@@ -50,10 +59,15 @@
         <section class="hero panel">
           <div>
             <p class="eyebrow">System Overview</p>
-            <h2>More useful apps, way more stuff to do</h2>
+            <h2>Cleaner, shinier, and easier to launch</h2>
             <p class="muted">
-              Play games, take notes, manage tasks, paint pixels, run timers, and personalize the whole desktop.
+              Browse a more polished TG OS with desktop theming, quick actions, and a better launch flow for real users on Windows.
             </p>
+            <div class="hero-actions">
+              <button class="launch-button" data-open="settings-window">Open Settings</button>
+              <button class="ghost-button" data-open="notes-window">Quick Notes</button>
+              <button class="ghost-button" data-open="todo-window">Open To-Do</button>
+            </div>
           </div>
           <div class="stats">
             <div class="stat-card">
@@ -65,8 +79,8 @@
               <span>Settings controls</span>
             </div>
             <div class="stat-card">
-              <strong>∞</strong>
-              <span>Replay value</span>
+              <strong>24/7</strong>
+              <span>Browser ready</span>
             </div>
           </div>
         </section>
@@ -76,29 +90,29 @@
             <div class="app-header">
               <div>
                 <p class="eyebrow">Arcade</p>
-                <h3>Snake</h3>
+                <h3><span class="app-icon">🐍</span> Snake</h3>
               </div>
               <button class="launch-button" data-open="snake-window">Launch</button>
             </div>
-            <p class="muted">Arcade classic with keyboard and touch controls.</p>
+            <p class="muted">Arcade classic with keyboard and on-screen controls.</p>
           </article>
 
           <article class="app-card panel">
             <div class="app-header">
               <div>
                 <p class="eyebrow">Utility</p>
-                <h3>Calculator</h3>
+                <h3><span class="app-icon">🧮</span> Calculator</h3>
               </div>
               <button class="launch-button" data-open="calculator-window">Launch</button>
             </div>
-            <p class="muted">Fast calculations with expression memory and history.</p>
+            <p class="muted">Fast calculations with history and keyboard support.</p>
           </article>
 
           <article class="app-card panel">
             <div class="app-header">
               <div>
                 <p class="eyebrow">Puzzle</p>
-                <h3>Minesweeper</h3>
+                <h3><span class="app-icon">💣</span> Minesweeper</h3>
               </div>
               <button class="launch-button" data-open="minesweeper-window">Launch</button>
             </div>
@@ -109,7 +123,7 @@
             <div class="app-header">
               <div>
                 <p class="eyebrow">Productivity</p>
-                <h3>Notes</h3>
+                <h3><span class="app-icon">📝</span> Notes</h3>
               </div>
               <button class="launch-button" data-open="notes-window">Launch</button>
             </div>
@@ -120,7 +134,7 @@
             <div class="app-header">
               <div>
                 <p class="eyebrow">Productivity</p>
-                <h3>To-Do Board</h3>
+                <h3><span class="app-icon">✅</span> To-Do Board</h3>
               </div>
               <button class="launch-button" data-open="todo-window">Launch</button>
             </div>
@@ -131,18 +145,18 @@
             <div class="app-header">
               <div>
                 <p class="eyebrow">Creative</p>
-                <h3>Pixel Painter</h3>
+                <h3><span class="app-icon">🎨</span> Pixel Painter</h3>
               </div>
               <button class="launch-button" data-open="painter-window">Launch</button>
             </div>
-            <p class="muted">Make tiny pixel art with your chosen palette color.</p>
+            <p class="muted">Make tiny pixel art with a smoother painting experience.</p>
           </article>
 
           <article class="app-card panel">
             <div class="app-header">
               <div>
                 <p class="eyebrow">Game</p>
-                <h3>Memory Match</h3>
+                <h3><span class="app-icon">🃏</span> Memory Match</h3>
               </div>
               <button class="launch-button" data-open="memory-window">Launch</button>
             </div>
@@ -153,28 +167,44 @@
             <div class="app-header">
               <div>
                 <p class="eyebrow">Utility</p>
-                <h3>Clock + Timer</h3>
+                <h3><span class="app-icon">⏰</span> Clock + Timer</h3>
               </div>
               <button class="launch-button" data-open="clock-window">Launch</button>
             </div>
-            <p class="muted">Live clock plus a countdown timer for focus sessions.</p>
+            <p class="muted">Live clock plus a validated countdown timer for focus sessions.</p>
           </article>
 
           <article class="app-card panel">
             <div class="app-header">
               <div>
                 <p class="eyebrow">System</p>
-                <h3>Settings</h3>
+                <h3><span class="app-icon">⚙️</span> Settings</h3>
               </div>
               <button class="launch-button" data-open="settings-window">Launch</button>
             </div>
-            <p class="muted">Adjust theme colors, font size, compact mode, and more.</p>
+            <p class="muted">Adjust theme colors, font size, compact mode, glow, and density.</p>
           </article>
         </section>
       </main>
     </div>
 
+    <footer class="taskbar panel">
+      <div class="taskbar-left">
+        <button class="taskbar-button active-brand" data-open="settings-window">TG OS</button>
+        <button class="taskbar-button" data-open="notes-window">Notes</button>
+        <button class="taskbar-button" data-open="todo-window">To-Do</button>
+        <button class="taskbar-button" data-open="snake-window">Snake</button>
+        <button class="taskbar-button" data-open="calculator-window">Calc</button>
+      </div>
+      <div class="taskbar-right">
+        <span id="taskbar-status" class="muted small">Desktop ready.</span>
+        <strong id="taskbar-clock">--:--</strong>
+      </div>
+    </footer>
+
     <section class="window-layer">
+      <div id="window-backdrop" class="window-backdrop" hidden></div>
+
       <div class="app-window panel" id="settings-window" hidden>
         <div class="window-bar">
           <div>
@@ -449,7 +479,7 @@
               <input type="color" id="paint-color" value="#6d5dfc" />
             </label>
             <button id="fill-painter" class="launch-button full-width top-gap">Fill All</button>
-            <p class="muted small">Click and drag to paint. Great for tiny icons or patterns.</p>
+            <p class="muted small">Click and drag to paint. The canvas now updates without re-rendering the whole grid.</p>
           </aside>
         </div>
       </div>

@@ -4,8 +4,8 @@
 ========================================================================
 
 PRODUCT: TG OS 1.0: Developer Edition
-VERSION: 1.1.0
-BUILD:   2026.03.19-ARCADE-PLUS
+VERSION: 1.2.0
+BUILD:   2026.03.19-POLISHED-STARTUP
 KERNEL:  ELECTRON-TG BORDERLESS FRAMEWORK
 
 ------------------------------------------------------------------------
@@ -23,14 +23,27 @@ Thanks for understanding.
 ------------------------------------------------------------------------
 2. HOW TO OPEN IN YOUR BROWSER
 ------------------------------------------------------------------------
+WINDOWS (RECOMMENDED):
+1. Double-click `start_tgos.bat`
+2. Your browser should open automatically to:
+   http://localhost:8000
+
+WINDOWS (MANUAL):
+1. Open Command Prompt in this project folder.
+2. Run:
+   py -m http.server 8000
+3. Open:
+   http://localhost:8000
+
+MAC / LINUX:
 1. Open a terminal in this project folder.
 2. Run:
    python3 -m http.server 8000
-3. Open this URL in your browser:
+3. Open:
    http://localhost:8000
 
-You can also try opening `index.html` directly, but the local server is the
-recommended way to launch TG OS.
+If you saw "The system cannot find the path specified", use `start_tgos.bat`
+or first `cd` into the TG OS project folder before running the server command.
 
 ------------------------------------------------------------------------
 3. INSTALLED APPLICATIONS

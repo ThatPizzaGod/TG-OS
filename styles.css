@@ -12,7 +12,7 @@
   --success: #41d68a;
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
   --density-gap: 24px;
-  --density-card-height: 180px;
+  --density-card-height: 190px;
   --font-scale: 1;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -36,14 +36,14 @@ body {
 }
 
 body.low-glow {
-  --shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+  --shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
 }
 
 body.compact-mode {
-  --density-card-height: 150px;
+  --density-card-height: 160px;
 }
 
-body.hide-tips .quickstart-card,
+body.hide-tips .tips-card,
 body.hide-tips .app-side-panel ul,
 body.hide-tips .app-side-panel .small {
   display: none;
@@ -90,9 +90,9 @@ code {
 .desktop-shell {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  min-height: 100vh;
+  min-height: calc(100vh - 98px);
   gap: var(--density-gap);
-  padding: 24px;
+  padding: 24px 24px 12px;
 }
 
 .panel,
@@ -133,10 +133,23 @@ code {
 .minesweeper-toolbar,
 .button-row,
 .toggle-row,
-.input-row {
+.input-row,
+.taskbar,
+.taskbar-left,
+.taskbar-right {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+}
+
+.stats,
+.preset-row,
+.app-grid,
+.settings-layout,
+.button-row,
+.quickstart-stack {
+  display: grid;
   gap: 12px;
 }
 
@@ -144,38 +157,52 @@ code {
   align-items: center;
 }
 
-.stats,
-.preset-row,
-.app-grid,
-.settings-layout,
-.button-row {
-  display: grid;
-  gap: 12px;
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
 }
 
 .stats {
   grid-template-columns: repeat(3, minmax(110px, 1fr));
 }
 
-.stat-card {
-  min-width: 110px;
+.stat-card,
+.quickstart-block {
   padding: 16px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.stat-card strong {
+.accent-block {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 28%, rgba(255,255,255,0.03)), color-mix(in srgb, var(--accent-strong) 18%, rgba(255,255,255,0.03)));
+}
+
+.stat-card strong,
+.quickstart-block strong {
   display: block;
-  font-size: 2rem;
+  font-size: 1.2rem;
 }
 
 .eyebrow,
-.label {
+.label,
+.status-pill {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.72rem;
   color: var(--muted);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 h1,
@@ -218,7 +245,7 @@ h1 {
 }
 
 .feature-list {
-  columns: 2;
+  columns: 1;
 }
 
 .theme-grid,
@@ -257,13 +284,15 @@ h1 {
 .calculator-grid button,
 .snake-controls button,
 .cell,
-.memory-card {
-  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+.memory-card,
+.taskbar-button {
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease, border-color 160ms ease;
 }
 
 .preset,
 .ghost-button,
-.close-button {
+.close-button,
+.taskbar-button {
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   border: 1px solid var(--border);
@@ -285,8 +314,10 @@ h1 {
 .calculator-grid button:hover,
 .snake-controls button:hover,
 .memory-card:hover,
-.cell:hover {
-  transform: translateY(-1px);
+.cell:hover,
+.taskbar-button:hover,
+.app-card:hover {
+  transform: translateY(-2px);
 }
 
 .app-card {
@@ -296,10 +327,42 @@ h1 {
   min-height: var(--density-card-height);
 }
 
+.app-icon {
+  opacity: 0.9;
+  margin-right: 6px;
+}
+
+.taskbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  margin: 0 24px 24px;
+  border-radius: 24px;
+  padding: 14px 18px;
+}
+
+.taskbar-left,
+.taskbar-right {
+  flex-wrap: wrap;
+}
+
+.active-brand {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 70%, rgba(255,255,255,0.08)), color-mix(in srgb, var(--accent-strong) 48%, rgba(255,255,255,0.06)));
+}
+
 .window-layer {
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: 40;
+}
+
+.window-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 4, 10, 0.38);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
 }
 
 .app-window {
@@ -311,10 +374,10 @@ h1 {
   overflow: auto;
   transform: translate(-50%, -50%);
   pointer-events: auto;
-  z-index: 5;
 }
 
-.app-window[hidden] {
+.app-window[hidden],
+.window-backdrop[hidden] {
   display: none;
 }
 
@@ -533,7 +596,7 @@ h1 {
 
 @media (max-width: 760px) {
   .desktop-shell {
-    padding: 16px;
+    padding: 16px 16px 10px;
   }
 
   .panel {
@@ -547,7 +610,10 @@ h1 {
   .toggle-row,
   .input-row,
   .minesweeper-toolbar,
-  .score-row {
+  .score-row,
+  .taskbar,
+  .taskbar-left,
+  .taskbar-right {
     flex-direction: column;
     align-items: stretch;
   }
@@ -560,7 +626,7 @@ h1 {
     grid-template-columns: 1fr;
   }
 
-  .feature-list {
-    columns: 1;
+  .taskbar {
+    margin: 0 16px 16px;
   }
 }

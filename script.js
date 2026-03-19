@@ -20,31 +20,25 @@ const defaultSettings = {
 };
 
 const presets = {
-  violet: {
-    accent: '#6d5dfc',
-    accentStrong: '#11d6c5',
-    surface: '#151a2e',
-    desktopGlow: '#0b1020',
-  },
-  sunset: {
-    accent: '#ff7a59',
-    accentStrong: '#ffb347',
-    surface: '#23131f',
-    desktopGlow: '#14080f',
-  },
-  forest: {
-    accent: '#3ddc97',
-    accentStrong: '#80ed99',
-    surface: '#12211a',
-    desktopGlow: '#07130e',
-  },
-  ice: {
-    accent: '#5dade2',
-    accentStrong: '#7ef9ff',
-    surface: '#122035',
-    desktopGlow: '#060d18',
-  },
+  violet: { accent: '#6d5dfc', accentStrong: '#11d6c5', surface: '#151a2e', desktopGlow: '#0b1020' },
+  sunset: { accent: '#ff7a59', accentStrong: '#ffb347', surface: '#23131f', desktopGlow: '#14080f' },
+  forest: { accent: '#3ddc97', accentStrong: '#80ed99', surface: '#12211a', desktopGlow: '#07130e' },
+  ice: { accent: '#5dade2', accentStrong: '#7ef9ff', surface: '#122035', desktopGlow: '#060d18' },
 };
+
+function loadStored(key, fallback) {
+  const raw = localStorage.getItem(key);
+  if (!raw) return fallback;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return fallback;
+  }
+}
+
+function saveStored(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
 
 const settings = { ...defaultSettings, ...loadStored(storageKeys.settings, {}) };
 const themeInputs = {
@@ -53,7 +47,6 @@ const themeInputs = {
   surface: document.querySelector('#surface-color'),
   desktopGlow: document.querySelector('#desktop-glow-color'),
 };
-
 const toggleInputs = {
   compactMode: document.querySelector('#compact-toggle'),
   largeText: document.querySelector('#large-text-toggle'),
@@ -61,15 +54,11 @@ const toggleInputs = {
   showTips: document.querySelector('#tips-toggle'),
 };
 const densitySelect = document.querySelector('#density-select');
-
-function loadStored(key, fallback) {
-  const raw = localStorage.getItem(key);
-  return raw ? JSON.parse(raw) : fallback;
-}
-
-function saveStored(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+const taskbarClock = document.querySelector('#taskbar-clock');
+const taskbarStatus = document.querySelector('#taskbar-status');
+const backdrop = document.querySelector('#window-backdrop');
+const windows = [...document.querySelectorAll('.app-window')];
+let topWindowZ = 50;
 
 function shiftColor(hex, amount) {
   const value = hex.replace('#', '');
@@ -81,6 +70,37 @@ function shiftColor(hex, amount) {
     return next.toString(16).padStart(2, '0');
   });
   return `#${shifted.join('')}`;
+}
+
+function updateBackdrop() {
+  const hasOpenWindow = windows.some((windowElement) => !windowElement.hidden);
+  backdrop.hidden = !hasOpenWindow;
+}
+
+function setStatus(message) {
+  taskbarStatus.textContent = message;
+}
+
+function bringToFront(windowElement) {
+  topWindowZ += 1;
+  windowElement.style.zIndex = String(topWindowZ);
+}
+
+function openWindow(windowId) {
+  const windowElement = document.getElementById(windowId);
+  if (!windowElement) return;
+  windowElement.hidden = false;
+  bringToFront(windowElement);
+  updateBackdrop();
+  setStatus(`${windowElement.querySelector('h2').textContent} opened.`);
+}
+
+function closeWindow(windowId) {
+  const windowElement = document.getElementById(windowId);
+  if (!windowElement) return;
+  windowElement.hidden = true;
+  updateBackdrop();
+  setStatus(`${windowElement.querySelector('h2').textContent} closed.`);
 }
 
 function applySettings() {
@@ -112,6 +132,7 @@ Object.entries(themeInputs).forEach(([key, input]) => {
     settings[key] = event.target.value;
     applySettings();
     drawSnake();
+    setStatus('Theme updated.');
   });
 });
 
@@ -119,12 +140,14 @@ Object.entries(toggleInputs).forEach(([key, input]) => {
   input.addEventListener('change', (event) => {
     settings[key] = event.target.checked;
     applySettings();
+    setStatus('Desktop preferences updated.');
   });
 });
 
 densitySelect.addEventListener('change', (event) => {
   settings.density = event.target.value;
   applySettings();
+  setStatus('Density updated.');
 });
 
 document.querySelectorAll('.preset').forEach((button) => {
@@ -132,6 +155,7 @@ document.querySelectorAll('.preset').forEach((button) => {
     Object.assign(settings, presets[button.dataset.preset]);
     applySettings();
     drawSnake();
+    setStatus(`Applied ${button.dataset.preset} preset.`);
   });
 });
 
@@ -146,24 +170,39 @@ document.querySelector('#random-theme').addEventListener('click', () => {
   settings.desktopGlow = shiftColor(seed, -55);
   applySettings();
   drawSnake();
+  setStatus('Random theme applied.');
 });
 
 document.querySelector('#reset-settings').addEventListener('click', () => {
-  Object.assign(settings, structuredClone(defaultSettings));
+  Object.assign(settings, { ...defaultSettings });
   applySettings();
   drawSnake();
+  setStatus('Settings reset to defaults.');
 });
 
-const windows = document.querySelectorAll('.app-window');
 document.querySelectorAll('[data-open]').forEach((button) => {
   button.addEventListener('click', () => {
-    document.getElementById(button.dataset.open).hidden = false;
+    openWindow(button.dataset.open);
   });
 });
 
 document.querySelectorAll('[data-close]').forEach((button) => {
   button.addEventListener('click', () => {
-    document.getElementById(button.dataset.close).hidden = true;
+    closeWindow(button.dataset.close);
+  });
+});
+
+backdrop.addEventListener('click', () => {
+  windows.forEach((windowElement) => {
+    windowElement.hidden = true;
+  });
+  updateBackdrop();
+  setStatus('All windows closed.');
+});
+
+windows.forEach((windowElement) => {
+  windowElement.addEventListener('mousedown', () => {
+    bringToFront(windowElement);
   });
 });
 
@@ -172,6 +211,8 @@ document.addEventListener('keydown', (event) => {
     windows.forEach((windowElement) => {
       windowElement.hidden = true;
     });
+    updateBackdrop();
+    setStatus('All windows closed.');
   }
 });
 
@@ -194,10 +235,7 @@ let bestScore = 0;
 function randomCell() {
   let cell;
   do {
-    cell = {
-      x: Math.floor(Math.random() * gridSize),
-      y: Math.floor(Math.random() * gridSize),
-    };
+    cell = { x: Math.floor(Math.random() * gridSize), y: Math.floor(Math.random() * gridSize) };
   } while (snake.some((segment) => segment.x === cell.x && segment.y === cell.y));
   return cell;
 }
@@ -216,6 +254,7 @@ function endSnakeGame() {
   if (snakeLoop) clearInterval(snakeLoop);
   bestScore = Math.max(bestScore, snakePoints);
   snakeBest.textContent = String(bestScore);
+  setStatus('Snake game over.');
 }
 
 function stepSnake() {
@@ -241,10 +280,9 @@ function stepSnake() {
 }
 
 function drawRoundedTile(x, y, color) {
-  const inset = 2;
   snakeCtx.fillStyle = color;
   snakeCtx.beginPath();
-  snakeCtx.roundRect(x * tileSize + inset, y * tileSize + inset, tileSize - inset * 2, tileSize - inset * 2, 8);
+  snakeCtx.roundRect(x * tileSize + 2, y * tileSize + 2, tileSize - 4, tileSize - 4, 8);
   snakeCtx.fill();
 }
 
@@ -254,7 +292,6 @@ function drawSnake(gameOver = false) {
   snakeCtx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
   snakeCtx.fillStyle = 'rgba(255,255,255,0.04)';
   snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-
   snakeCtx.strokeStyle = 'rgba(255,255,255,0.06)';
   for (let index = 0; index <= gridSize; index += 1) {
     snakeCtx.beginPath();
@@ -266,12 +303,10 @@ function drawSnake(gameOver = false) {
     snakeCtx.lineTo(snakeCanvas.width, index * tileSize);
     snakeCtx.stroke();
   }
-
   drawRoundedTile(food.x, food.y, '#ff6b81');
   snake.forEach((segment, index) => {
     drawRoundedTile(segment.x, segment.y, index === 0 ? accentStrong : accent);
   });
-
   if (gameOver) {
     snakeCtx.fillStyle = 'rgba(0,0,0,0.58)';
     snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
@@ -291,16 +326,12 @@ snakeStartButton.addEventListener('click', () => {
   resetSnake();
   if (snakeLoop) clearInterval(snakeLoop);
   snakeLoop = setInterval(stepSnake, 150);
+  setStatus('Snake started.');
 });
 
 document.querySelectorAll('[data-direction]').forEach((button) => {
   button.addEventListener('click', () => {
-    const map = {
-      up: { x: 0, y: -1 },
-      down: { x: 0, y: 1 },
-      left: { x: -1, y: 0 },
-      right: { x: 1, y: 0 },
-    };
+    const map = { up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 } };
     queueDirection(map[button.dataset.direction]);
   });
 });
@@ -310,18 +341,11 @@ const calculatorDisplay = document.querySelector('#calculator-display');
 const calculatorExpression = document.querySelector('#calculator-expression');
 const calculatorHistory = document.querySelector('#calculator-history');
 let historyEntries = [];
-const calcState = {
-  display: '0',
-  storedValue: null,
-  operator: null,
-  waitingForNewValue: false,
-};
+const calcState = { display: '0', storedValue: null, operator: null, waitingForNewValue: false };
 
 function renderCalculator() {
   calculatorDisplay.textContent = calcState.display;
-  calculatorExpression.textContent = calcState.operator && calcState.storedValue !== null
-    ? `${calcState.storedValue} ${calcState.operator}`
-    : calcState.display;
+  calculatorExpression.textContent = calcState.operator && calcState.storedValue !== null ? `${calcState.storedValue} ${calcState.operator}` : calcState.display;
 }
 
 function renderHistory() {
@@ -345,9 +369,7 @@ function handleCalculatorAction(action, value) {
     calcState.display = calcState.waitingForNewValue ? value : calcState.display === '0' ? value : calcState.display + value;
     calcState.waitingForNewValue = false;
   }
-  if (action === 'decimal' && !calcState.display.includes('.')) {
-    calcState.display += '.';
-  }
+  if (action === 'decimal' && !calcState.display.includes('.')) calcState.display += '.';
   if (action === 'clear') {
     calcState.display = '0';
     calcState.storedValue = null;
@@ -375,6 +397,7 @@ function handleCalculatorAction(action, value) {
     calcState.waitingForNewValue = true;
     historyEntries.push({ expression, result });
     renderHistory();
+    setStatus('Calculation completed.');
   }
   renderCalculator();
 }
@@ -388,6 +411,7 @@ document.querySelector('#calculator-grid').addEventListener('click', (event) => 
 document.querySelector('#clear-history').addEventListener('click', () => {
   historyEntries = [];
   renderHistory();
+  setStatus('Calculator history cleared.');
 });
 
 document.addEventListener('keydown', (event) => {
@@ -479,7 +503,6 @@ function revealCell(row, col) {
   if (cell.revealed || cell.flagged || gameFinished) return;
   cell.revealed = true;
   revealedCount += 1;
-
   if (cell.mine) {
     gameFinished = true;
     stopMineTimer();
@@ -488,21 +511,20 @@ function revealCell(row, col) {
       if (entry.mine) entry.revealed = true;
     });
     renderBoard();
+    setStatus('Minesweeper lost.');
     return;
   }
-
   if (cell.adjacent === 0) {
     getNeighbors(row, col).forEach((neighbor) => {
       if (!neighbor.revealed) revealCell(neighbor.row, neighbor.col);
     });
   }
-
   if (revealedCount === boardSize * boardSize - mineTotal) {
     gameFinished = true;
     stopMineTimer();
     mineStatusElement.textContent = 'You cleared the field!';
+    setStatus('Minesweeper won.');
   }
-
   renderBoard();
 }
 
@@ -524,7 +546,10 @@ function resetMinesweeper() {
   startMineTimer();
 }
 
-document.querySelector('#minesweeper-reset').addEventListener('click', resetMinesweeper);
+document.querySelector('#minesweeper-reset').addEventListener('click', () => {
+  resetMinesweeper();
+  setStatus('Minesweeper reset.');
+});
 mineBoardElement.addEventListener('click', (event) => {
   const cellButton = event.target.closest('.cell');
   if (!cellButton) return;
@@ -542,10 +567,12 @@ const notesArea = document.querySelector('#notes-area');
 notesArea.value = localStorage.getItem(storageKeys.notes) || '';
 notesArea.addEventListener('input', () => {
   localStorage.setItem(storageKeys.notes, notesArea.value);
+  setStatus('Notes saved.');
 });
 document.querySelector('#clear-notes').addEventListener('click', () => {
   notesArea.value = '';
   localStorage.setItem(storageKeys.notes, '');
+  setStatus('Notes cleared.');
 });
 
 // Todo
@@ -576,6 +603,7 @@ todoForm.addEventListener('submit', (event) => {
   todos.push({ id: Date.now(), text, done: false });
   todoInput.value = '';
   renderTodos();
+  setStatus('Task added.');
 });
 
 todoListElement.addEventListener('click', (event) => {
@@ -583,9 +611,11 @@ todoListElement.addEventListener('click', (event) => {
   const deleteButton = event.target.closest('[data-todo-delete]');
   if (toggleButton) {
     todos = todos.map((todo) => todo.id === Number(toggleButton.dataset.todoToggle) ? { ...todo, done: !todo.done } : todo);
+    setStatus('Task updated.');
   }
   if (deleteButton) {
     todos = todos.filter((todo) => todo.id !== Number(deleteButton.dataset.todoDelete));
+    setStatus('Task deleted.');
   }
   renderTodos();
 });
@@ -593,6 +623,7 @@ todoListElement.addEventListener('click', (event) => {
 document.querySelector('#clear-completed').addEventListener('click', () => {
   todos = todos.filter((todo) => !todo.done);
   renderTodos();
+  setStatus('Completed tasks cleared.');
 });
 
 // Pixel painter
@@ -611,41 +642,48 @@ function renderPaintGrid() {
     const cell = document.createElement('button');
     cell.className = 'paint-cell';
     cell.dataset.index = String(index);
-    if (color) cell.style.background = color;
+    cell.style.background = color || 'rgba(255,255,255,0.06)';
     paintGrid.appendChild(cell);
   });
 }
 
-function paintCell(index) {
-  paintCells[index] = paintColorInput.value;
+function updatePaintCell(index) {
+  const cell = paintGrid.querySelector(`[data-index="${index}"]`);
+  if (!cell) return;
+  const color = paintColorInput.value;
+  paintCells[index] = color;
+  cell.style.background = color;
   savePaint();
-  renderPaintGrid();
 }
 
 paintGrid.addEventListener('mousedown', (event) => {
   const cell = event.target.closest('.paint-cell');
   if (!cell) return;
   isPainting = true;
-  paintCell(Number(cell.dataset.index));
+  updatePaintCell(Number(cell.dataset.index));
+  setStatus('Painting...');
 });
 paintGrid.addEventListener('mouseover', (event) => {
   if (!isPainting) return;
   const cell = event.target.closest('.paint-cell');
   if (!cell) return;
-  paintCell(Number(cell.dataset.index));
+  updatePaintCell(Number(cell.dataset.index));
 });
 document.addEventListener('mouseup', () => {
+  if (isPainting) setStatus('Painting saved.');
   isPainting = false;
 });
 document.querySelector('#clear-painter').addEventListener('click', () => {
   paintCells = Array.from({ length: 256 }, () => '');
   savePaint();
   renderPaintGrid();
+  setStatus('Pixel canvas cleared.');
 });
 document.querySelector('#fill-painter').addEventListener('click', () => {
   paintCells = Array.from({ length: 256 }, () => paintColorInput.value);
   savePaint();
   renderPaintGrid();
+  setStatus('Pixel canvas filled.');
 });
 
 // Memory match
@@ -661,7 +699,12 @@ let memoryMatchCount = 0;
 let memoryLock = false;
 
 function shuffle(array) {
-  return [...array].sort(() => Math.random() - 0.5);
+  const result = [...array];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+  }
+  return result;
 }
 
 function resetMemory() {
@@ -694,7 +737,6 @@ function flipMemoryCard(id) {
   card.flipped = true;
   flippedCards.push(card);
   renderMemory();
-
   if (flippedCards.length === 2) {
     memoryMoveCount += 1;
     const [first, second] = flippedCards;
@@ -703,7 +745,10 @@ function flipMemoryCard(id) {
       second.matched = true;
       memoryMatchCount += 1;
       flippedCards = [];
-      if (memoryMatchCount === memoryIcons.length) memoryStatus.textContent = 'Perfect! You cleared the board.';
+      if (memoryMatchCount === memoryIcons.length) {
+        memoryStatus.textContent = 'Perfect! You cleared the board.';
+        setStatus('Memory Match completed.');
+      }
       renderMemory();
       return;
     }
@@ -723,7 +768,10 @@ memoryGrid.addEventListener('click', (event) => {
   if (!card) return;
   flipMemoryCard(Number(card.dataset.id));
 });
-document.querySelector('#memory-reset').addEventListener('click', resetMemory);
+document.querySelector('#memory-reset').addEventListener('click', () => {
+  resetMemory();
+  setStatus('Memory board shuffled.');
+});
 
 // Clock + timer
 const clockDisplay = document.querySelector('#clock-display');
@@ -738,6 +786,14 @@ function renderClock() {
   const now = new Date();
   clockDisplay.textContent = now.toLocaleTimeString();
   clockDate.textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  taskbarClock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function sanitizeTimerMinutes() {
+  const parsed = Number(timerMinutesInput.value);
+  const safeValue = Number.isFinite(parsed) ? Math.min(180, Math.max(1, Math.round(parsed))) : 5;
+  timerMinutesInput.value = String(safeValue);
+  return safeValue;
 }
 
 function renderTimer() {
@@ -748,15 +804,16 @@ function renderTimer() {
 
 function resetTimer() {
   if (timerLoop) clearInterval(timerLoop);
-  timerRemaining = Number(timerMinutesInput.value) * 60;
+  timerRemaining = sanitizeTimerMinutes() * 60;
   timerStatus.textContent = 'Ready for a focus session.';
   renderTimer();
 }
 
 document.querySelector('#timer-start').addEventListener('click', () => {
   if (timerLoop) clearInterval(timerLoop);
-  if (timerRemaining <= 0) timerRemaining = Number(timerMinutesInput.value) * 60;
+  if (timerRemaining <= 0) timerRemaining = sanitizeTimerMinutes() * 60;
   timerStatus.textContent = 'Countdown running...';
+  setStatus('Timer started.');
   timerLoop = setInterval(() => {
     timerRemaining -= 1;
     renderTimer();
@@ -765,10 +822,14 @@ document.querySelector('#timer-start').addEventListener('click', () => {
       timerStatus.textContent = 'Timer complete!';
       timerRemaining = 0;
       renderTimer();
+      setStatus('Timer complete.');
     }
   }, 1000);
 });
-document.querySelector('#timer-reset').addEventListener('click', resetTimer);
+document.querySelector('#timer-reset').addEventListener('click', () => {
+  resetTimer();
+  setStatus('Timer reset.');
+});
 timerMinutesInput.addEventListener('change', resetTimer);
 setInterval(renderClock, 1000);
 
@@ -782,3 +843,5 @@ renderPaintGrid();
 resetMemory();
 renderClock();
 resetTimer();
+updateBackdrop();
+setStatus('Desktop ready.');
