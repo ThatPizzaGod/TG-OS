@@ -1,0 +1,566 @@
+:root {
+  color-scheme: dark;
+  --accent: #6d5dfc;
+  --accent-strong: #11d6c5;
+  --surface: #151a2e;
+  --surface-2: #111522;
+  --desktop-glow: #0b1020;
+  --text: #f6f7fb;
+  --muted: #a7afc9;
+  --border: rgba(255, 255, 255, 0.12);
+  --danger: #ff6b81;
+  --success: #41d68a;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  --density-gap: 24px;
+  --density-card-height: 180px;
+  --font-scale: 1;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: calc(16px * var(--font-scale));
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 28%, transparent), transparent 32%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-strong) 24%, transparent), transparent 26%),
+    linear-gradient(135deg, var(--desktop-glow), #06070d 70%);
+}
+
+body.low-glow {
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+}
+
+body.compact-mode {
+  --density-card-height: 150px;
+}
+
+body.hide-tips .quickstart-card,
+body.hide-tips .app-side-panel ul,
+body.hide-tips .app-side-panel .small {
+  display: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  border-radius: 14px;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 12px 14px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.desktop-shell {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  min-height: 100vh;
+  gap: var(--density-gap);
+  padding: 24px;
+}
+
+.panel,
+.panel-inner {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, rgba(255,255,255,0.08)), color-mix(in srgb, var(--surface-2) 92%, rgba(255,255,255,0.02)));
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+}
+
+.panel {
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.panel-inner {
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.sidebar,
+.workspace,
+.clock-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar,
+.workspace {
+  gap: var(--density-gap);
+}
+
+.hero,
+.section-heading,
+.app-header,
+.window-bar,
+.score-row,
+.minesweeper-toolbar,
+.button-row,
+.toggle-row,
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero {
+  align-items: center;
+}
+
+.stats,
+.preset-row,
+.app-grid,
+.settings-layout,
+.button-row {
+  display: grid;
+  gap: 12px;
+}
+
+.stats {
+  grid-template-columns: repeat(3, minmax(110px, 1fr));
+}
+
+.stat-card {
+  min-width: 110px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 2rem;
+}
+
+.eyebrow,
+.label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  margin-bottom: 12px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.92rem;
+}
+
+.top-gap {
+  margin-top: 12px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.step-list,
+.feature-list,
+.todo-list,
+.history-list,
+.app-side-panel ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.feature-list {
+  columns: 2;
+}
+
+.theme-grid,
+.settings-list,
+.single-column-layout,
+.notes-area,
+.clock-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.theme-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.theme-grid label,
+.settings-list label,
+.app-side-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-row {
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+
+.app-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.preset,
+.ghost-button,
+.launch-button,
+.close-button,
+.calculator-grid button,
+.snake-controls button,
+.cell,
+.memory-card {
+  transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+
+.preset,
+.ghost-button,
+.close-button {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+}
+
+.launch-button,
+.equals {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #fff;
+  padding: 12px 16px;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.launch-button:hover,
+.preset:hover,
+.ghost-button:hover,
+.close-button:hover,
+.calculator-grid button:hover,
+.snake-controls button:hover,
+.memory-card:hover,
+.cell:hover {
+  transform: translateY(-1px);
+}
+
+.app-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: var(--density-card-height);
+}
+
+.window-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.app-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(980px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.app-window[hidden] {
+  display: none;
+}
+
+.window-bar {
+  margin-bottom: 18px;
+}
+
+.window-body {
+  display: grid;
+  gap: 18px;
+}
+
+.two-column-layout,
+.calculator-layout,
+.settings-layout {
+  grid-template-columns: minmax(0, 1fr) 260px;
+}
+
+.settings-layout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.snake-stage {
+  display: grid;
+  place-items: center;
+  gap: 18px;
+}
+
+#snake-canvas {
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+}
+
+.snake-controls {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+}
+
+.snake-controls div,
+.button-row {
+  display: flex;
+  gap: 10px;
+}
+
+.snake-controls button,
+.calculator-grid button,
+.memory-card,
+.cell {
+  min-width: 58px;
+  min-height: 58px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.calculator,
+.minesweeper-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calculator-display-wrap,
+.clock-face,
+.timer-readout {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(4, 6, 12, 0.6);
+}
+
+.calculator-expression {
+  min-height: 24px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.calculator-display,
+.clock-face,
+.timer-readout {
+  text-align: right;
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.calculator-grid,
+.memory-grid,
+.paint-grid,
+.minesweeper-board {
+  display: grid;
+  gap: 10px;
+}
+
+.calculator-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+.history-list,
+.todo-list {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-list li,
+.todo-item {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.todo-item.done span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.notes-area {
+  min-height: 320px;
+}
+
+.paint-grid {
+  grid-template-columns: repeat(16, minmax(16px, 1fr));
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.paint-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.memory-grid {
+  grid-template-columns: repeat(4, minmax(70px, 1fr));
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  font-size: 1.6rem;
+  border-radius: 18px;
+}
+
+.memory-card.matched {
+  background: color-mix(in srgb, var(--success) 26%, rgba(255, 255, 255, 0.06));
+}
+
+.minesweeper-board {
+  grid-template-columns: repeat(8, minmax(34px, 1fr));
+  gap: 6px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.cell.revealed {
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.cell.flagged {
+  color: #ffd166;
+}
+
+.cell.mine.revealed {
+  background: color-mix(in srgb, var(--danger) 30%, rgba(0, 0, 0, 0.3));
+}
+
+.toggle-row {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.toggle-row input {
+  width: 20px;
+  height: 20px;
+}
+
+.select,
+#density-select,
+#timer-minutes,
+#todo-input {
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .desktop-shell,
+  .two-column-layout,
+  .calculator-layout,
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .desktop-shell {
+    padding: 16px;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .hero,
+  .window-bar,
+  .app-header,
+  .section-heading,
+  .toggle-row,
+  .input-row,
+  .minesweeper-toolbar,
+  .score-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats,
+  .app-grid,
+  .theme-grid,
+  .preset-row,
+  .memory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-list {
+    columns: 1;
+  }
+}
