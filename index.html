@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TG OS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="desktop-shell">
+      <aside class="sidebar panel">
+        <div>
+          <p class="eyebrow">TG OS</p>
+          <h1>Polished Desktop Edition</h1>
+          <p class="muted">
+            A richer browser desktop with games, utilities, persistence, and a cleaner launch flow for Windows and local web servers.
+          </p>
+        </div>
+
+        <section class="panel-inner quickstart-card">
+          <div class="section-heading">
+            <h2>Open It Fast</h2>
+            <button class="ghost-button" data-open="settings-window">Settings</button>
+          </div>
+          <div class="quickstart-stack">
+            <div class="quickstart-block accent-block">
+              <span class="label">Windows easiest way</span>
+              <strong>Double-click <code>start_tgos.bat</code></strong>
+              <p class="muted small">It starts a local server from the correct folder and opens the browser for you.</p>
+            </div>
+            <div class="quickstart-block">
+              <span class="label">Manual fallback</span>
+              <ol class="step-list">
+                <li>Open this folder in a terminal.</li>
+                <li>Run <code>py -m http.server 8000</code> on Windows or <code>python3 -m http.server 8000</code> on macOS/Linux.</li>
+                <li>Visit <code>http://localhost:8000</code> in your browser.</li>
+              </ol>
+            </div>
+          </div>
+          <p class="muted small">Tip: once the desktop loads, use the taskbar or any Launch button to open apps.</p>
+        </section>
+
+        <section class="panel-inner tips-card">
+          <div class="section-heading">
+            <h2>What&apos;s New</h2>
+            <span class="status-pill">Build 1.2</span>
+          </div>
+          <ul class="feature-list">
+            <li>Window backdrop + focus stacking</li>
+            <li>Windows launch helper script</li>
+            <li>Saved settings, notes, todos, and pixel art</li>
+            <li>Quick-launch taskbar</li>
+            <li>Safer storage handling and timer validation</li>
+          </ul>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <section class="hero panel">
+          <div>
+            <p class="eyebrow">System Overview</p>
+            <h2>Cleaner, shinier, and easier to launch</h2>
+            <p class="muted">
+              Browse a more polished TG OS with desktop theming, quick actions, and a better launch flow for real users on Windows.
+            </p>
+            <div class="hero-actions">
+              <button class="launch-button" data-open="settings-window">Open Settings</button>
+              <button class="ghost-button" data-open="notes-window">Quick Notes</button>
+              <button class="ghost-button" data-open="todo-window">Open To-Do</button>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat-card">
+              <strong>9</strong>
+              <span>Total apps</span>
+            </div>
+            <div class="stat-card">
+              <strong>5</strong>
+              <span>Settings controls</span>
+            </div>
+            <div class="stat-card">
+              <strong>24/7</strong>
+              <span>Browser ready</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="app-grid">
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Arcade</p>
+                <h3><span class="app-icon">🐍</span> Snake</h3>
+              </div>
+              <button class="launch-button" data-open="snake-window">Launch</button>
+            </div>
+            <p class="muted">Arcade classic with keyboard and on-screen controls.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Utility</p>
+                <h3><span class="app-icon">🧮</span> Calculator</h3>
+              </div>
+              <button class="launch-button" data-open="calculator-window">Launch</button>
+            </div>
+            <p class="muted">Fast calculations with history and keyboard support.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Puzzle</p>
+                <h3><span class="app-icon">💣</span> Minesweeper</h3>
+              </div>
+              <button class="launch-button" data-open="minesweeper-window">Launch</button>
+            </div>
+            <p class="muted">Reveal safe tiles, flag mines, and beat the clock.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Productivity</p>
+                <h3><span class="app-icon">📝</span> Notes</h3>
+              </div>
+              <button class="launch-button" data-open="notes-window">Launch</button>
+            </div>
+            <p class="muted">Scratchpad notes saved locally in your browser.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Productivity</p>
+                <h3><span class="app-icon">✅</span> To-Do Board</h3>
+              </div>
+              <button class="launch-button" data-open="todo-window">Launch</button>
+            </div>
+            <p class="muted">Track tasks with quick add, complete, and clear controls.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Creative</p>
+                <h3><span class="app-icon">🎨</span> Pixel Painter</h3>
+              </div>
+              <button class="launch-button" data-open="painter-window">Launch</button>
+            </div>
+            <p class="muted">Make tiny pixel art with a smoother painting experience.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Game</p>
+                <h3><span class="app-icon">🃏</span> Memory Match</h3>
+              </div>
+              <button class="launch-button" data-open="memory-window">Launch</button>
+            </div>
+            <p class="muted">Flip cards, find pairs, and try to win in fewer moves.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">Utility</p>
+                <h3><span class="app-icon">⏰</span> Clock + Timer</h3>
+              </div>
+              <button class="launch-button" data-open="clock-window">Launch</button>
+            </div>
+            <p class="muted">Live clock plus a validated countdown timer for focus sessions.</p>
+          </article>
+
+          <article class="app-card panel">
+            <div class="app-header">
+              <div>
+                <p class="eyebrow">System</p>
+                <h3><span class="app-icon">⚙️</span> Settings</h3>
+              </div>
+              <button class="launch-button" data-open="settings-window">Launch</button>
+            </div>
+            <p class="muted">Adjust theme colors, font size, compact mode, glow, and density.</p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <footer class="taskbar panel">
+      <div class="taskbar-left">
+        <button class="taskbar-button active-brand" data-open="settings-window">TG OS</button>
+        <button class="taskbar-button" data-open="notes-window">Notes</button>
+        <button class="taskbar-button" data-open="todo-window">To-Do</button>
+        <button class="taskbar-button" data-open="snake-window">Snake</button>
+        <button class="taskbar-button" data-open="calculator-window">Calc</button>
+      </div>
+      <div class="taskbar-right">
+        <span id="taskbar-status" class="muted small">Desktop ready.</span>
+        <strong id="taskbar-clock">--:--</strong>
+      </div>
+    </footer>
+
+    <section class="window-layer">
+      <div id="window-backdrop" class="window-backdrop" hidden></div>
+
+      <div class="app-window panel" id="settings-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">System</p>
+            <h2>Settings</h2>
+          </div>
+          <button class="close-button" data-close="settings-window">✕</button>
+        </div>
+        <div class="window-body settings-layout">
+          <section class="panel-inner">
+            <div class="section-heading">
+              <h3>Theme Colors</h3>
+              <button id="random-theme" class="ghost-button">Randomize</button>
+            </div>
+            <div class="theme-grid">
+              <label>
+                <span>Accent</span>
+                <input type="color" id="accent-color" value="#6d5dfc" />
+              </label>
+              <label>
+                <span>Accent 2</span>
+                <input type="color" id="accent-strong-color" value="#11d6c5" />
+              </label>
+              <label>
+                <span>Surface</span>
+                <input type="color" id="surface-color" value="#151a2e" />
+              </label>
+              <label>
+                <span>Desktop glow</span>
+                <input type="color" id="desktop-glow-color" value="#0b1020" />
+              </label>
+            </div>
+            <div class="preset-row top-gap">
+              <button class="preset" data-preset="violet">Violet</button>
+              <button class="preset" data-preset="sunset">Sunset</button>
+              <button class="preset" data-preset="forest">Forest</button>
+              <button class="preset" data-preset="ice">Ice</button>
+            </div>
+          </section>
+
+          <section class="panel-inner">
+            <div class="section-heading">
+              <h3>Desktop Preferences</h3>
+              <button id="reset-settings" class="ghost-button">Reset</button>
+            </div>
+            <div class="settings-list">
+              <label class="toggle-row">
+                <span>Compact cards</span>
+                <input type="checkbox" id="compact-toggle" />
+              </label>
+              <label class="toggle-row">
+                <span>Large text</span>
+                <input type="checkbox" id="large-text-toggle" />
+              </label>
+              <label class="toggle-row">
+                <span>Reduce glow</span>
+                <input type="checkbox" id="glow-toggle" />
+              </label>
+              <label class="toggle-row">
+                <span>Show helper tips</span>
+                <input type="checkbox" id="tips-toggle" checked />
+              </label>
+              <label>
+                <span>App density</span>
+                <select id="density-select">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                  <option value="spacious">Spacious</option>
+                </select>
+              </label>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="snake-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Arcade</p>
+            <h2>Snake</h2>
+          </div>
+          <button class="close-button" data-close="snake-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <div class="snake-stage panel-inner">
+            <canvas id="snake-canvas" width="320" height="320" aria-label="Snake game"></canvas>
+            <div class="snake-controls">
+              <button data-direction="up">↑</button>
+              <div>
+                <button data-direction="left">←</button>
+                <button data-direction="down">↓</button>
+                <button data-direction="right">→</button>
+              </div>
+            </div>
+          </div>
+          <div class="app-side-panel panel-inner">
+            <div class="score-row">
+              <div>
+                <span class="label">Score</span>
+                <strong id="snake-score">0</strong>
+              </div>
+              <div>
+                <span class="label">Best</span>
+                <strong id="snake-best">0</strong>
+              </div>
+            </div>
+            <button id="snake-start" class="launch-button full-width">Start / Restart</button>
+            <p class="muted small">Use arrow keys or the buttons. Avoid walls and your own tail.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="calculator-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Utility</p>
+            <h2>Calculator</h2>
+          </div>
+          <button class="close-button" data-close="calculator-window">✕</button>
+        </div>
+        <div class="window-body calculator-layout">
+          <section class="calculator panel-inner">
+            <div class="calculator-display-wrap">
+              <div id="calculator-expression" class="calculator-expression">0</div>
+              <div id="calculator-display" class="calculator-display">0</div>
+            </div>
+            <div class="calculator-grid" id="calculator-grid">
+              <button data-action="clear">C</button>
+              <button data-action="negate">±</button>
+              <button data-action="percent">%</button>
+              <button data-action="operator" data-value="/">÷</button>
+              <button data-action="digit" data-value="7">7</button>
+              <button data-action="digit" data-value="8">8</button>
+              <button data-action="digit" data-value="9">9</button>
+              <button data-action="operator" data-value="*">×</button>
+              <button data-action="digit" data-value="4">4</button>
+              <button data-action="digit" data-value="5">5</button>
+              <button data-action="digit" data-value="6">6</button>
+              <button data-action="operator" data-value="-">−</button>
+              <button data-action="digit" data-value="1">1</button>
+              <button data-action="digit" data-value="2">2</button>
+              <button data-action="digit" data-value="3">3</button>
+              <button data-action="operator" data-value="+">+</button>
+              <button class="span-2" data-action="digit" data-value="0">0</button>
+              <button data-action="decimal">.</button>
+              <button class="equals" data-action="equals">=</button>
+            </div>
+          </section>
+          <aside class="history panel-inner">
+            <div class="section-heading">
+              <h3>History</h3>
+              <button id="clear-history" class="ghost-button">Clear</button>
+            </div>
+            <ul id="calculator-history" class="history-list">
+              <li class="muted">No calculations yet.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="minesweeper-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Puzzle</p>
+            <h2>Minesweeper</h2>
+          </div>
+          <button class="close-button" data-close="minesweeper-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <div class="panel-inner minesweeper-main">
+            <div class="minesweeper-toolbar">
+              <div>
+                <span class="label">Mines</span>
+                <strong id="mine-count">10</strong>
+              </div>
+              <div>
+                <span class="label">Time</span>
+                <strong id="mine-timer">0s</strong>
+              </div>
+              <button id="minesweeper-reset" class="launch-button">New Board</button>
+            </div>
+            <div id="minesweeper-board" class="minesweeper-board" aria-label="Minesweeper board"></div>
+          </div>
+          <aside class="panel-inner app-side-panel">
+            <h3>How to Play</h3>
+            <ul>
+              <li>Left click to reveal a tile.</li>
+              <li>Right click to flag a suspected mine.</li>
+              <li>Reveal all safe tiles to win.</li>
+            </ul>
+            <p id="minesweeper-status" class="muted small">Board ready.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="notes-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Productivity</p>
+            <h2>Notes</h2>
+          </div>
+          <button class="close-button" data-close="notes-window">✕</button>
+        </div>
+        <div class="window-body single-column-layout">
+          <section class="panel-inner">
+            <div class="section-heading">
+              <h3>Scratchpad</h3>
+              <button id="clear-notes" class="ghost-button">Clear</button>
+            </div>
+            <textarea id="notes-area" class="notes-area" placeholder="Write anything here..."></textarea>
+            <p class="muted small">Your notes save automatically in this browser.</p>
+          </section>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="todo-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Productivity</p>
+            <h2>To-Do Board</h2>
+          </div>
+          <button class="close-button" data-close="todo-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <section class="panel-inner">
+            <div class="section-heading">
+              <h3>Tasks</h3>
+              <button id="clear-completed" class="ghost-button">Clear Done</button>
+            </div>
+            <form id="todo-form" class="input-row">
+              <input id="todo-input" type="text" placeholder="Add a task" />
+              <button class="launch-button" type="submit">Add</button>
+            </form>
+            <ul id="todo-list" class="todo-list"></ul>
+          </section>
+          <aside class="panel-inner app-side-panel">
+            <h3>Status</h3>
+            <div class="score-row">
+              <div>
+                <span class="label">Total</span>
+                <strong id="todo-total">0</strong>
+              </div>
+              <div>
+                <span class="label">Done</span>
+                <strong id="todo-done">0</strong>
+              </div>
+            </div>
+            <p class="muted small">Use this for reminders, chores, or quick project checklists.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="painter-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Creative</p>
+            <h2>Pixel Painter</h2>
+          </div>
+          <button class="close-button" data-close="painter-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <section class="panel-inner">
+            <div class="section-heading">
+              <h3>Canvas</h3>
+              <button id="clear-painter" class="ghost-button">Clear</button>
+            </div>
+            <div id="paint-grid" class="paint-grid" aria-label="Pixel painter grid"></div>
+          </section>
+          <aside class="panel-inner app-side-panel">
+            <label>
+              <span class="label">Brush color</span>
+              <input type="color" id="paint-color" value="#6d5dfc" />
+            </label>
+            <button id="fill-painter" class="launch-button full-width top-gap">Fill All</button>
+            <p class="muted small">Click and drag to paint. The canvas now updates without re-rendering the whole grid.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="memory-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Game</p>
+            <h2>Memory Match</h2>
+          </div>
+          <button class="close-button" data-close="memory-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <section class="panel-inner">
+            <div id="memory-grid" class="memory-grid" aria-label="Memory match grid"></div>
+          </section>
+          <aside class="panel-inner app-side-panel">
+            <div class="score-row">
+              <div>
+                <span class="label">Moves</span>
+                <strong id="memory-moves">0</strong>
+              </div>
+              <div>
+                <span class="label">Matches</span>
+                <strong id="memory-matches">0</strong>
+              </div>
+            </div>
+            <button id="memory-reset" class="launch-button full-width">Shuffle</button>
+            <p id="memory-status" class="muted small">Find all matching pairs.</p>
+          </aside>
+        </div>
+      </div>
+
+      <div class="app-window panel" id="clock-window" hidden>
+        <div class="window-bar">
+          <div>
+            <p class="eyebrow">Utility</p>
+            <h2>Clock + Timer</h2>
+          </div>
+          <button class="close-button" data-close="clock-window">✕</button>
+        </div>
+        <div class="window-body two-column-layout">
+          <section class="panel-inner clock-panel">
+            <div class="clock-face" id="clock-display">00:00:00</div>
+            <p id="clock-date" class="muted">Loading date...</p>
+          </section>
+          <aside class="panel-inner app-side-panel">
+            <label>
+              <span class="label">Minutes</span>
+              <input id="timer-minutes" type="number" min="1" max="180" value="5" />
+            </label>
+            <div class="timer-readout" id="timer-display">05:00</div>
+            <div class="button-row">
+              <button id="timer-start" class="launch-button">Start</button>
+              <button id="timer-reset" class="ghost-button">Reset</button>
+            </div>
+            <p id="timer-status" class="muted small">Ready for a focus session.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
